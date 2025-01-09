@@ -1,13 +1,6 @@
 #include <iostream>
 using namespace std;
 
-struct Account {
-    int accountNumber;
-    char firstName[20];
-    char lastName[20];
-    char phoneNumber[10];
-    float balance;
-};
 
 void addRecord() {
 }
@@ -21,7 +14,9 @@ void searchRecord() {
 }
 
 void updateRecord() {
-
+    int accountNumber;
+    cout << "Enter Account Number :" << endl;
+    cin >> accountNumber;
 }
 
 void deleteRecord() {

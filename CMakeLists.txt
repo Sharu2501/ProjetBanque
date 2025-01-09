@@ -3,4 +3,13 @@ project(ProjetC__)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(ProjetC__ main.cpp)
+add_executable(ProjetC__
+        source/Bank.cpp
+        source/Account.cpp
+        source/Bank.h
+        source/Account.h
+        Menu.cpp
+)
+
+
+target_include_directories(ProjetC__ PUBLIC source)
