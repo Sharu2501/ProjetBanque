@@ -11,5 +11,4 @@ add_executable(ProjetC__
         Menu.cpp
 )
 
-
 target_include_directories(ProjetC__ PUBLIC source header)

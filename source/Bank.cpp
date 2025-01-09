@@ -109,6 +109,12 @@ public:
     void searchRecord() const {
         string accountNumber;
         cout << "\n*** Search for a record ***" << endl;
+        int cpt = 0;
+        for (auto it = records.begin(); it != records.end(); ++it) {
+            cpt = cpt+1;
+        }
+        cout << "Number of records found: " << cpt << endl;
+
         cout << "Enter Account Number: "; getline(cin, accountNumber);
 
         for (const auto& record : records) {
