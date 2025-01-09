@@ -6,10 +6,10 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(ProjetC__
         source/Bank.cpp
         source/Account.cpp
-        source/Bank.h
-        source/Account.h
+        header/Bank.h
+        header/Account.h
         Menu.cpp
 )
 
 
-target_include_directories(ProjetC__ PUBLIC source)
+target_include_directories(ProjetC__ PUBLIC source header)
