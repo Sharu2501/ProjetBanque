@@ -15,7 +15,16 @@ private:
 
     void loadRecords() {
         ifstream inFile(filename);
-        if (!inFile) return;
+
+        if (!inFile) {
+            ofstream outFile(filename, ios::app);
+            if (!outFile) {
+                cout << "Error creating file!" << endl;
+                return;
+            }
+            outFile.close();
+            return;
+        }
 
         string line;
         while (getline(inFile, line)) {
@@ -23,6 +32,7 @@ private:
         }
         inFile.close();
     }
+
 
     void saveRecords() const {
         ofstream outFile(filename);
