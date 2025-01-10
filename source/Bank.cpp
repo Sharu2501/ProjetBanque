@@ -44,19 +44,19 @@ private:
         outFile.close();
     }
 
-    bool isValidAccountNumber(const string& accountNumber) {
+    static bool isValidAccountNumber(const string& accountNumber) {
         return regex_match(accountNumber, regex("^\\d{6,10}$")); // 6-10 chiffres
     }
 
-    bool isValidName(const string& name) {
+    static bool isValidName(const string& name) {
         return !name.empty() && regex_match(name, regex("^[A-Za-z\\s'-]+$"));
     }
 
-    bool isValidPhoneNumber(const string& phoneNumber) {
+    static bool isValidPhoneNumber(const string& phoneNumber) {
         return regex_match(phoneNumber, regex("^\\+?\\d{9,15}$")); // Format international
     }
 
-    bool isValidBalance(double balance) {
+    static bool isValidBalance(double balance) {
         return balance >= 0.0; // Le solde ne peut pas être négatif
     }
 
@@ -125,6 +125,7 @@ public:
 
         records.emplace_back(accountNumber, firstName, lastName, phoneNumber, balance);
         cout << "Record added successfully!" << endl;
+        saveRecords();
     }
 
     void displayRecords() const {
