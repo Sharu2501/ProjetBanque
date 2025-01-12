@@ -44,6 +44,12 @@ private:
         outFile.close();
     }
 
+    void deleteRecords() const {
+        ofstream outFile(filename, ios::trunc);
+        outFile << "";
+        outFile.close();
+    }
+
     static bool isValidAccountNumber(const string& accountNumber) {
         return regex_match(accountNumber, regex("^\\d{6,10}$")); // 6-10 chiffres
     }
@@ -69,7 +75,6 @@ public:
         string accountNumber, firstName, lastName, phoneNumber;
         double balance;
 
-        // Validation du numéro de compte
         do {
             cout << "Enter Account Number (6-10 digits): ";
             getline(cin, accountNumber);
@@ -78,7 +83,6 @@ public:
             }
         } while (!isValidAccountNumber(accountNumber));
 
-        // Validation du prénom
         do {
             cout << "Enter First Name: ";
             getline(cin, firstName);
@@ -87,7 +91,6 @@ public:
             }
         } while (!isValidName(firstName));
 
-        // Validation du nom de famille
         do {
             cout << "Enter Last Name: ";
             getline(cin, lastName);
@@ -96,7 +99,6 @@ public:
             }
         } while (!isValidName(lastName));
 
-        // Validation du numéro de téléphone
         do {
             cout << "Enter Phone Number (10-15 digits, optional + at the start): ";
             getline(cin, phoneNumber);
@@ -105,30 +107,28 @@ public:
             }
         } while (!isValidPhoneNumber(phoneNumber));
 
-        // Validation du solde
         while (true) {
             cout << "Enter Balance: ";
             cin >> balance;
 
             if (cin.fail()) {
                 cout << "Invalid Balance. Please enter a valid number." << endl;
-                cin.clear(); // Efface l'état d'erreur du flux
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore l'entrée incorrecte
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
             } else if (!isValidBalance(balance)) {
                 cout << "Invalid Balance. The balance cannot be negative." << endl;
             } else {
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore les caractères supplémentaires
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             }
         }
-
 
         records.emplace_back(accountNumber, firstName, lastName, phoneNumber, balance);
         cout << "Record added successfully!" << endl;
         saveRecords();
     }
 
-    void displayRecords() const {
+    void displayRecords() {
         cout << "\n*** Records information ***" << endl;
         for (const auto& record : records) {
             record.display();
@@ -137,19 +137,59 @@ public:
 
     void modifyRecord() {
         string accountNumber;
+        displayRecords();
         cout << "\n*** Modify a record ***" << endl;
         cout << "Enter Account Number: "; getline(cin, accountNumber);
 
         for (auto& record : records) {
             if (record.getAccountNumber() == accountNumber) {
-                string phoneNumber;
+                string firstName, lastName, phoneNumber;
                 double balance;
+                do {
+                    cout << "Enter First Name: ";
+                    getline(cin, firstName);
+                    if (!isValidName(firstName)) {
+                        cout << "Invalid First Name. Please use only letters, spaces, hyphens, or apostrophes." << endl;
+                    }
+                } while (!isValidName(firstName));
 
-                cout << "Enter new phone number: "; getline(cin, phoneNumber);
-                cout << "Enter new balance: "; cin >> balance; cin.ignore();
+                do {
+                    cout << "Enter Last Name: ";
+                    getline(cin, lastName);
+                    if (!isValidName(lastName)) {
+                        cout << "Invalid Last Name. Please use only letters, spaces, hyphens, or apostrophes." << endl;
+                    }
+                } while (!isValidName(lastName));
 
+                do {
+                    cout << "Enter Phone Number (10-15 digits, optional + at the start): ";
+                    getline(cin, phoneNumber);
+                    if (!isValidPhoneNumber(phoneNumber)) {
+                        cout << "Invalid Phone Number. Please enter 10-15 digits, optionally starting with a +." << endl;
+                    }
+                } while (!isValidPhoneNumber(phoneNumber));
+
+                while (true) {
+                    cout << "Enter Balance: ";
+                    cin >> balance;
+
+                    if (cin.fail()) {
+                        cout << "Invalid Balance. Please enter a valid number." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    } else if (!isValidBalance(balance)) {
+                        cout << "Invalid Balance. The balance cannot be negative." << endl;
+                    } else {
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        break;
+                    }
+                }
+                record.setFirstName(firstName);
+                record.setLastName(lastName);
                 record.setPhoneNumber(phoneNumber);
                 record.setBalance(balance);
+                deleteRecords();
+                saveRecords();
                 cout << "Record modified successfully!" << endl;
                 return;
             }
@@ -159,6 +199,7 @@ public:
 
     void deleteRecord() {
         string accountNumber;
+        displayRecords();
         cout << "\n*** Delete a record ***" << endl;
         cout << "Enter Account Number: "; getline(cin, accountNumber);
 
@@ -166,6 +207,8 @@ public:
             if (it->getAccountNumber() == accountNumber) {
                 records.erase(it);
                 cout << "Record deleted successfully!" << endl;
+                deleteRecords();
+                saveRecords();
                 return;
             }
         }

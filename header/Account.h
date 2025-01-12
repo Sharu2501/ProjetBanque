@@ -20,6 +20,10 @@ public:
     void setPhoneNumber(const string& phone);
     void setBalance(double bal);
 
+    void setFirstName(const string &firstName);
+
+    void setLastName(const string &lastName);
+
     void display() const;
     string toString() const;
 

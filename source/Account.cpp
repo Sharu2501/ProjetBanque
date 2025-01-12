@@ -13,6 +13,10 @@ void Account::setPhoneNumber(const string& phone) { phoneNumber = phone; }
 
 void Account::setBalance(double bal) { balance = bal; }
 
+void Account::setFirstName(const string& firstName) { this->firstName = firstName; }
+
+void Account::setLastName(const string& lastName) { this->lastName = lastName; }
+
 void Account::display() const {
     cout << "Account Number: " << accountNumber
          << "\nFirst Name: " << firstName
