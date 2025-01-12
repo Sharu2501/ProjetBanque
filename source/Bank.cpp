@@ -50,7 +50,13 @@ private:
         outFile.close();
     }
 
-    static bool isValidAccountNumber(const string& accountNumber) {
+    bool isValidAccountNumber(const string& accountNumber) {
+        for (const auto& record : records) {
+            if (accountNumber == record.getAccountNumber()) {
+                cout << "Number account " << record.getAccountNumber() << " already exist" << endl;
+                return false;
+            }
+        }
         return regex_match(accountNumber, regex("^\\d{6,10}$")); // 6-10 chiffres
     }
 
@@ -75,13 +81,15 @@ public:
         string accountNumber, firstName, lastName, phoneNumber;
         double balance;
 
+        bool validAccountNumber;
         do {
             cout << "Enter Account Number (6-10 digits): ";
             getline(cin, accountNumber);
-            if (!isValidAccountNumber(accountNumber)) {
+            validAccountNumber = isValidAccountNumber(accountNumber);
+            if (!validAccountNumber) {
                 cout << "Invalid Account Number. Please enter 6-10 digits." << endl;
             }
-        } while (!isValidAccountNumber(accountNumber));
+        } while (!validAccountNumber);
 
         do {
             cout << "Enter First Name: ";
