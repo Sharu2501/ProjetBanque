@@ -216,22 +216,24 @@ public:
     }
 
     void searchRecord() const {
-        string accountNumber;
+        int saveNumber;
         cout << "\n*** Search for a record ***" << endl;
-        int cpt = 0;
-        for (auto it = records.begin(); it != records.end(); ++it) {
-            cpt = cpt+1;
-        }
-        cout << "Number of records found: " << cpt << endl;
 
-        cout << "Enter Account Number: "; getline(cin, accountNumber);
-
-        for (const auto& record : records) {
-            if (record.getAccountNumber() == accountNumber) {
-                record.display();
-                return;
-            }
+        cout << "Number of records found: " << records.size() << endl;
+        cout << "Enter Account Number: ";
+        cin >> saveNumber;
+        while (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid number : Enter a valid save number: ";
+            cin >> saveNumber;
         }
-        cout << "Record not found!" << endl;
+
+        if(saveNumber > records.size() || saveNumber < 1) {
+            cout << "Record not found!" << endl;
+            return;
+        }
+        cout << "\nRecord number " << saveNumber << endl;
+        records.at(saveNumber-1).display();
     }
 };
