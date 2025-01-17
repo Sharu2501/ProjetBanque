@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -mmacosx-version-min=12.5 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/ProjetC__.dir/source/Bank.cpp.o CMakeFiles/ProjetC__.dir/source/Account.cpp.o CMakeFiles/ProjetC__.dir/Menu.cpp.o -o ProjetC__

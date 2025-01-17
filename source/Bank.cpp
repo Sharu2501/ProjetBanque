@@ -14,7 +14,7 @@ class Bank {
 private:
     vector<Account> records;
     const string filename = "bank_records.txt";
-
+    int isAsk=1;
     void loadRecords() {
         ifstream inFile(filename);
 
@@ -36,7 +36,7 @@ private:
     }
 
 
-    void saveRecords() const {
+    void saveRecords()  {
         ofstream outFile(filename);
         for (const auto& record : records) {
             outFile << record.toString() << "\n";
@@ -44,7 +44,7 @@ private:
         outFile.close();
     }
 
-    void deleteRecords() const {
+    void deleteRecords() {
         ofstream outFile(filename, ios::trunc);
         outFile << "";
         outFile.close();
@@ -243,5 +243,37 @@ public:
         }
         cout << "\nRecord number " << saveNumber << endl;
         records.at(saveNumber-1).display();
+    }
+
+
+    void searchRecordBONUS()  {
+        int saveNumber;
+        cout << "\n*** Recherche d'un enregistrement ***" << endl;
+        if (isAsk==1){
+            cout << "Nombre total d'enregistrements disponibles : " << records.size() << endl;
+            isAsk=0;
+        }
+
+        if (records.empty()) {
+            cout << "Erreur d'ouverture ! Fichier introuvable!!" << endl;
+            return;
+        }
+
+        cout << "Entrez le numéro d'enregistrement : ";
+        cin >> saveNumber;
+
+        while (cin.fail()) {
+            cin.clear();
+            cout << "Numéro invalide : Entrez un numéro valide : ";
+            cin >> saveNumber;
+        }
+
+        if (saveNumber > records.size() || saveNumber < 1) {
+            cout << "Erreur d'ouverture ! Fichier introuvable!!" << endl;
+            return;
+        }
+
+        cout << "\nEnregistrement numéro " << saveNumber << ":" << endl;
+        records.at(saveNumber - 1).display();
     }
 };
